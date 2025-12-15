@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Pointer Defense</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-area">
+        <div id="laser"></div>
+        <div id="tuna">🐟</div>
+        <div id="ui-layer">
+            <div class="stat">Score: <span id="score-display">0</span></div>
+        </div>
+        <div id="start-screen">
+            <h1>Laser Pointer Defense</h1>
+            <p>1. Protect the Tuna from the Cats.<br>
+            2. Hover your laser near a cat to distract it.<br>
+            3. Lead distracted cats off the screen to score points!</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="game-over-screen">
+            <h1 style="color: white">The Tuna Was eaten!</h1>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <button onclick="restartGame()">Try Again</button>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
