@@ -145,8 +145,10 @@ function updateCats(dt) {
         cat.element.style.top = cat.y + 'px';
 
         if (!cat.isDistracted && distTuna < CONFIG.tunaRadius) {
-            gameOver();
-            return;
+            cat.element.remove();
+            state.cats.splice(i, 1);
+            takeDamage();
+            continue;
         }
 
         if (cat.isDistracted) {
