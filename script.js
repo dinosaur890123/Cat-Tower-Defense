@@ -43,6 +43,7 @@ function startGame() {
     gameArea.style.cursor = 'none';
     state.isPlaying = true;
     state.score = 0;
+    state.health = CONFIG.maxHealth;
     state.cats = [];
     state.spawnTimer = 0;
     scoreDisplay.textContent = '0';
