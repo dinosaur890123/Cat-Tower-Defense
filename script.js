@@ -109,5 +109,44 @@ function updateCosts(dt) {
             targetY = tunaY;
             speed = CONFIG.catSpeed;
         }
+        const angle = Math.atan2(targetY - cat.y, targetX - cat.x);
+        cat.vx = Math.cos(angle) * speed;
+        cat.vy = Math.sin(angle) * speed;
+        cat.x += cat.vx;
+        cat.y += cat.vy;
+        const scaleX = cat.vx > 0 ? -1 : 1;
+        cat.element.style.transform = `translate(-50%, -50%) scaleX(${scaleX})`;
+        cat.element.style.left = cat.x + 'px';
+        cat.element.style.top = cat.y + 'px';
+
+        if (!cat.isDistracted && distTuna < CONFIG.tunaRadius) {
+            gameOver();
+            return;
+        }
+
+        if (cat.isDistracted) {
+            const offScreenMargin = 40;
+            if (cat.x < -offScreenMargin || cat.x > w + offScreenMargin || cat.y < -offScreenMargin || cat.y > h + offScreenMargin) {
+                cat.element.remove();
+                state.cats.splice(i, 1);
+                state.score++;
+                scoreDisplay.textContent = state.score;
+                if (state.score % 5 === 0) {
+                    CONFIG.spawnRate = Math.max(500, CONFIG.spawnRate - 100);
+                }
+            }
+        }
     }
+}
+function gameLoop(timestamp) {
+    if (!state.isPlaying) return;
+    const dt = timestamp - state.lastTime;
+    state.lastTime = timestamp;
+    state.spawnTimer += dt;
+    if (state.spawnTimer > CONFIG.spawnRate) {
+        spawnCat();
+        state.spawnTimer = 0;
+    }
+    updateCats();
+    requestAnimationFrame(gameLoop);
 }
