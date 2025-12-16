@@ -1,4 +1,5 @@
 const CONFIG = {
+    maxHealth: 3,
     catSpeed: 2,
     chaseSpeed: 3.5,
     spawnRate: 1500,
@@ -8,6 +9,7 @@ const CONFIG = {
 let state = {
     isPlaying: false,
     score: 0,
+    health: 3,
     lastTime: 0,
     spawnTimer: 0,
     mouse: {x: window.innerWidth / 2, y: window.innerHeight / 2},
