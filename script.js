@@ -20,6 +20,7 @@ const finalScoreDisplay = document.getElementById('final-score');
 const gameOverScreen = document.getElementById('game-over-screen');
 const startScreen = document.getElementById('start-screen');
 const tunaElement = document.getElementById('tuna');
+const healthBar = document.getElementById('health-bar');
 document.addEventListener('mousemove', (e) => {
     state.mouse.x = e.clientX;
     state.mouse.y = e.clientY;
@@ -43,12 +44,36 @@ function startGame() {
     state.cats = [];
     state.spawnTimer = 0;
     scoreDisplay.textContent = '0';
+    updateHealthUI();
+    tunaContainer.classList.remove('shake');
+    gameArea.classList.remove('damage-flash');
     const existingCats = document.querySelectorAll('.cat');
     existingCats.forEach(c => c.remove());
     requestAnimationFrame(gameLoop);
 }
 function restartGame() {
     startGame();
+}
+function updateHealthUI() {
+    let hearts = '';
+    for (let i=0; i<state.health; i++) {
+        hearts += '❤️';
+    }
+    healthBar.textContent = hearts;
+}
+function takeDamage() {
+    state.health--;
+    updateHealthUI();
+    tunaContainer.classList.remove('shake');
+    void tunaContainer.offsetWidth;
+    tunaContainer.classList.add('shake');
+    gameArea.classList.add('damage-flash');
+    setTimeout(() => {
+        gameArea.classList.remove('damage-flash');
+    }, 100);
+    if (state.health <= 0) {
+        gameOver();
+    }
 }
 function gameOver() {
     state.isPlaying = false;
@@ -79,7 +104,7 @@ function spawnCat() {
         isDistracted: false
     });
 }
-function updateCosts(dt) {
+function updateCats(dt) {
     const w = window.innerWidth;
     const h = window.innerHeight;
     const tunaX = w / 2;
